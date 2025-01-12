@@ -50,42 +50,44 @@ async function run(): Promise<void> {
 
     const commentBody = getCommentBody(statsDiff, chunkModuleDiff, title)
 
-    const promises: Promise<unknown>[] = []
+    core.summary.addRaw(commentBody, true).write()
 
-    if (restComments.length > 1) {
-      promises.push(
-        ...restComments.map(async comment => {
-          return rest.issues.deleteComment({
-            repo: repo_name,
-            owner,
-            comment_id: comment.id
-          })
-        })
-      )
-    }
+    // const promises: Promise<unknown>[] = []
 
-    if (currentComment) {
-      promises.push(
-        rest.issues.updateComment({
-          issue_number,
-          owner,
-          repo: repo_name,
-          body: commentBody,
-          comment_id: currentComment.id
-        })
-      )
-    } else {
-      promises.push(
-        rest.issues.createComment({
-          issue_number,
-          owner,
-          repo: repo_name,
-          body: commentBody
-        })
-      )
-    }
+    // if (restComments.length > 1) {
+    //   promises.push(
+    //     ...restComments.map(async comment => {
+    //       return rest.issues.deleteComment({
+    //         repo: repo_name,
+    //         owner,
+    //         comment_id: comment.id
+    //       })
+    //     })
+    //   )
+    // }
 
-    await Promise.all(promises)
+    // if (currentComment) {
+    //   promises.push(
+    //     rest.issues.updateComment({
+    //       issue_number,
+    //       owner,
+    //       repo: repo_name,
+    //       body: commentBody,
+    //       comment_id: currentComment.id
+    //     })
+    //   )
+    // } else {
+    //   promises.push(
+    //     rest.issues.createComment({
+    //       issue_number,
+    //       owner,
+    //       repo: repo_name,
+    //       body: commentBody
+    //     })
+    //   )
+    // }
+
+    // await Promise.all(promises)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
