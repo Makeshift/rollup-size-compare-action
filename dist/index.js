@@ -189,34 +189,40 @@ function run() {
             const statsDiff = (0, get_stats_diff_1.getStatsDiff)(baseStatsJson, currentStatsJson);
             const chunkModuleDiff = (0, get_chunk_module_diff_1.getChunkModuleDiff)(baseStatsJson, currentStatsJson);
             const commentBody = (0, to_comment_body_1.getCommentBody)(statsDiff, chunkModuleDiff, title);
-            const promises = [];
-            if (restComments.length > 1) {
-                promises.push(...restComments.map((comment) => __awaiter(this, void 0, void 0, function* () {
-                    return rest.issues.deleteComment({
-                        repo: repo_name,
-                        owner,
-                        comment_id: comment.id
-                    });
-                })));
-            }
-            if (currentComment) {
-                promises.push(rest.issues.updateComment({
-                    issue_number,
-                    owner,
-                    repo: repo_name,
-                    body: commentBody,
-                    comment_id: currentComment.id
-                }));
-            }
-            else {
-                promises.push(rest.issues.createComment({
-                    issue_number,
-                    owner,
-                    repo: repo_name,
-                    body: commentBody
-                }));
-            }
-            yield Promise.all(promises);
+            core.summary.addRaw(commentBody, true).write();
+            // const promises: Promise<unknown>[] = []
+            // if (restComments.length > 1) {
+            //   promises.push(
+            //     ...restComments.map(async comment => {
+            //       return rest.issues.deleteComment({
+            //         repo: repo_name,
+            //         owner,
+            //         comment_id: comment.id
+            //       })
+            //     })
+            //   )
+            // }
+            // if (currentComment) {
+            //   promises.push(
+            //     rest.issues.updateComment({
+            //       issue_number,
+            //       owner,
+            //       repo: repo_name,
+            //       body: commentBody,
+            //       comment_id: currentComment.id
+            //     })
+            //   )
+            // } else {
+            //   promises.push(
+            //     rest.issues.createComment({
+            //       issue_number,
+            //       owner,
+            //       repo: repo_name,
+            //       body: commentBody
+            //     })
+            //   )
+            // }
+            // await Promise.all(promises)
         }
         catch (error) {
             if (error instanceof Error)
