@@ -563,11 +563,7 @@ function getIdentifierComment(key) {
 }
 function getCommentBody(statsDiff, chunkModuleDiff, title) {
     return `
-### Bundle Stats${title ? ` — ${title}` : ''}
-
-Hey there, this message comes from a [GitHub action](https://github.com/twk3/rollup-size-compare-action) that helps you and reviewers to understand how these changes affect the size of this project's bundle.
-
-As this PR is updated, I'll keep you updated on how the bundle size is impacted.
+## Bundle Stats${title ? ` — ${title}` : ''}
 
 ${(0, print_markdown_1.printTotalAssetTable)(statsDiff)}
 ${chunkModuleDiff ? `${(0, print_markdown_1.printChunkModulesTable)(chunkModuleDiff)}\n` : ''}
